@@ -219,3 +219,15 @@ ax.set_ylabel("Flight Count")
 st.pyplot(fig)
 
 st.write("Reviewing the plot, we can determine that the peak is near zero minutes, which means that most flights depart ontime, or very close to ontime. The small number of negative values mean that some flights departed early. The distribution has a right-skewed tail, which means that while most flights are ontime or slightly delayed, there are some flights with significant delays. Cancelation rate is also very low at 2.37% of flights.")
+
+st.subheader("Overall Conclusions:")
+
+st.write("BOS has direct connections to 63 airports.")
+
+st.write("DCA (Ronald Reagan Washington Airport) has almost 800 direct flights in the period examined.")
+
+st.write("Daily flight volume follows a distinct pattern.")
+
+st.write("Flight destinations are overwhelmingly domestic in nature.")
+
+st.write("Several airlines dominate the flights during the period.")
