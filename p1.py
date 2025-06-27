@@ -100,6 +100,8 @@ st.pyplot(fig)
 
 st.write("The 7 day rolling average of daily flights from BOS helps to smooth out the daily fluctuations. Whereas the daily flights volume line is saw-toothed, this rolling average is more consistent. We can also determine a peak in the first 10 days of the month, with a considerable decline between the 11th and 25th. Flights rebound towards the end of the month.")
 
+st.subheader("Flight Volume by Time of Day")
+
 # Create dataframe
 bos_df = df[df['Origin'] == 'BOS'].copy()
 bos_df = bos_df[pd.to_numeric(bos_df['DepTime'], errors='coerce').notnull()]
@@ -123,6 +125,8 @@ plt.tight_layout()
 st.pyplot(fig)
 
 st.write("Flight volumne by time of day peaks at 7am and remains consistent high in the hours preceding and following. We can determine a drop off in flights between 11am and 2pm, with another increase between 3pm and 7pm. There is a substantial drop off in flights after 7pm, and very little to no activity in the overnight hours.")
+
+st.subheader("Domestic vs International Flights")
 
 # Create data frame
 bos_df = df[df['Origin'] == 'BOS'].copy()
