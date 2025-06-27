@@ -84,6 +84,8 @@ st.pyplot(fig)
 
 st.write("The daily flight volume out of BOS in January reflects a saw-toothed pattern. Observing the 3 lowest points, each around 260 flights, suggests a possible trend. These low points all occur on Saturday (11, 18 & 25). If we examine the days prior and after Saturday, we can determine that the total flights on those days are much higher. This could suggest a few possibilities. Passengers are arriving in BOS on Friday, possibly for a short stay/weekend getaway, and then depart on Sunday. Another possibility is that business travelers depart from BOS on Sunday or Monday, and then return Friday. Saturday would then have lower flight volume as the business travelers would be less active. This possibility becomes more reasonable when we examine the high points, which do coincide with Monday and Friday.")
 
+st.subheader("Daily Flight Volume: 7-Day Rolling Average")
+
 # 7 day rolling average
 fig, ax = plt.subplots(figsize=(12, 6))
 daily_counts.rolling(window=7).mean().plot(ax=ax, color='darkorange', linewidth=2)
