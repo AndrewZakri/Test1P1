@@ -95,3 +95,115 @@ plt.tight_layout()
 st.pyplot(fig)
 
 st.write("The 7 day rolling average of daily flights from BOS helps to smooth out the daily fluctuations. Whereas the daily flights volume line is saw-toothed, this rolling average is more consistent. We can also determine a peak in the first 10 days of the month, with a considerable decline between the 11th and 25th. Flights rebound towards the end of the month.")
+
+# Create dataframe
+bos_df = df[df['Origin'] == 'BOS'].copy()
+bos_df = bos_df[pd.to_numeric(bos_df['DepTime'], errors='coerce').notnull()]
+bos_df['DepHour'] = bos_df['DepTime'].astype(int) // 100
+
+# Group by hour of day
+hourly_counts = bos_df.groupby('DepHour').size()
+
+# Plot
+fig, ax = plt.subplots(figsize=(10, 5))
+hourly_counts.plot(kind='bar', color='skyblue', edgecolor='black', ax=ax)
+ax.set_title("Flight Volume by Time of Day from BOS", fontsize=16)
+ax.set_xlabel("Hour of Day (24-hour format)", fontsize=12)
+ax.set_ylabel("Number of Flights", fontsize=12)
+ax.set_xticks(range(0, 24))
+ax.set_xticklabels([str(h).zfill(2) for h in range(0, 24)], rotation=0)
+ax.grid(axis='y', linestyle='--', alpha=0.7)
+plt.tight_layout()
+
+# Add plot to streamlit
+st.pyplot(fig)
+
+st.write("Flight volumne by time of day peaks at 7am and remains consistent high in the hours preceding and following. We can determine a drop off in flights between 11am and 2pm, with another increase between 3pm and 7pm. There is a substantial drop off in flights after 7pm, and very little to no activity in the overnight hours.")
+
+# Create data frame
+bos_df = df[df['Origin'] == 'BOS'].copy()
+
+# Create a list of U.S. IATA airport codes
+us_airports = ['ATL', 'ORD', 'LAX', 'JFK', 'DFW', 'MIA', 'DEN', 'SFO', 'CLT', 'SEA',
+               'PHL', 'EWR', 'BOS', 'DCA', 'LGA', 'IAD', 'PHX', 'MSP', 'DTW', 'HNL',
+               'MDW', 'MCO', 'TPA', 'BWI', 'SLC', 'SAN', 'CLE', 'PIT', 'STL', 'CVG',
+               'RDU', 'AUS', 'BNA', 'SJC', 'SMF', 'IND', 'MKE', 'BUF', 'SAT', 'SDF',
+               'ORF', 'PVD', 'RIC', 'ALB', 'SYR', 'MYR', 'SRQ', 'FLL', 'RSW', 'JAX',
+               'MSY', 'CHS', 'GRR', 'PBI', 'TYS', 'AVL', 'HDN', 'EYW', 'PQI']
+
+# Label flight domestic or international
+bos_df['FlightType'] = bos_df['Dest'].apply(lambda x: 'Domestic' if x in us_airports else 'International')
+
+# Calculate percentage
+flight_type_counts = bos_df['FlightType'].value_counts(normalize=True) * 100
+
+# Display result
+fig, ax = plt.subplots()
+flight_type_counts.plot(
+    kind='pie',
+    autopct='%1.1f%%',
+    startangle=90,
+    colors=['skyblue', 'lightcoral'],
+    ax=ax
+)
+ax.set_title('Domestic vs. International Flights from BOS')
+ax.set_ylabel('')
+plt.tight_layout()
+
+# Add plot to streamlit
+st.pyplot(fig)
+
+st.write("This pie chart reflects an overwhelming percentage of total flights classified as Domestic. Reviewing the direct route map, we can determine that there are only 2 destinations outside of the United States serviced by BOS. One in Puerto Rico and the other in the British Virgin Islands. Surprisingly, the number of International flights is low for an airport located in close proximity to the Atlantic Ocean. A possible explanation is that the demand for international travel in the New England area is low, either for business or leisure. It is also possible that neighboring airports, such as those in NYC are competing with BOS for international travel.")
+
+# Filter flights originating from BOS
+bos_df = df[df['Origin'] == 'BOS']
+
+# Count number of flights by carrier
+airline_counts = bos_df['Carrier'].value_counts().head(10)  # Top 10 airlines
+
+# Optional: Map carrier codes to full airline names (partial example)
+carrier_names = {
+    'AA': 'American Airlines',
+    'DL': 'Delta Air Lines',
+    'UA': 'United Airlines',
+    'B6': 'JetBlue Airways',
+    'WN': 'Southwest Airlines',
+    'NK': 'Spirit Airlines',
+    'AS': 'Alaska Airlines',
+    'YX': 'Republic Airways',
+    'F9': 'Fontier Airlines',
+    'MQ':  'Envoy Air'
+}
+airline_counts.index = [carrier_names.get(code, code) for code in airline_counts.index]
+
+# Plot
+fig, ax = plt.subplots(figsize=(10, 5))
+airline_counts.plot(kind='barh', color='mediumseagreen', edgecolor='black', ax=ax)
+ax.set_title("Top Airlines Operating from BOS – January 2025", fontsize=16)
+ax.set_xlabel("Number of Flights", fontsize=12)
+ax.set_ylabel("Airline", fontsize=12)
+ax.invert_yaxis()  # Highest count at the top
+ax.grid(axis='x', linestyle='--', alpha=0.7)
+plt.tight_layout()
+
+# Add plot to streamlit
+st.pyplot(fig)
+
+st.write("Referencing the bar chart for top airlines operating in BOS, we can see that there are 5 airlines with relatively high flight volumes, and the remaining airlines with much smaller volumes. JetBlue has just under 3000 flights, followed by Republic at 2500, Delta at 1800, American at 1100, and United at 900. The next closest is Spirit and Southwest with under 500 flights each. It could be argued that BOS is a hub for JetBlue, or at the very least an important airport in its network.")
+
+# Delay performance
+
+# Create dataframe
+bos_df = df[df['Origin'] == 'BOS']
+
+# Distribution of departure delays
+fig, ax = plt.subplots(figsize=(10, 5))
+sns.histplot(bos_df['DepDelay'].dropna(), bins=50, kde=True, ax=ax)
+ax.set_title("Distribution of Departure Delays from BOS")
+ax.set_xlabel("Departure Delay (minutes)")
+ax.set_ylabel("Flight Count")
+
+# Add plot to streamlit
+st.pyplot(fig)
+
+st.write("Reviewing the plot, we can determine that the peak is near zero minutes, which means that most flights depart ontime, or very close to ontime. The small number of negative values mean that some flights departed early. The distribution has a right-skewed tail, which means that while most flights are ontime or slightly delayed, there are some flights with significant delays. Cancelation rate is also very low at 2.37% of flights.")
