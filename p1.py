@@ -58,6 +58,8 @@ st.write("The bar graph displays the top 5 destinations from BOS in January 2025
 
 # Daily trend analysis for January 2025
 
+st.subheader("Daily Flight Volume")
+
 # Convert FlightDate to datetime and extract day of year
 df['FlightDate'] = pd.to_datetime(df['FlightDate'])
 df['Day'] = df['FlightDate'].dt.day_of_year
