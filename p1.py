@@ -40,3 +40,18 @@ st.write("Direct Routes from Boston Logan Airport (BOS)")
 
 st.write("An interactive map of all direct destinations from Boston Logan Airport (BOS). Direct routes are displayed in blue. Utilizing additional code, it was determined that BOS has direct connections to 63 airports. However, it should be noted that the dataset reflects flights occuring in January 2025 only. It is possible that connections in months not examined could be greater or fewer.")
 
+# Most Popular Routes from BOS
+top_routes = df[df['Origin'] == 'BOS'].groupby('Dest').size().sort_values(ascending=False).head(5)
+
+# Create bar plot
+fig, ax = plt.subplots()
+top_routes.plot(kind='barh', ax=ax, color='skyblue')
+ax.set_title('Top 5 Destinations from BOS')
+ax.set_xlabel('Number of Flights')
+ax.set_ylabel('Destination')
+
+# Display in Streamlit
+st.subheader("Most Popular Routes from BOS")
+st.pyplot(fig)
+
+st.write("The bar graph displays the top 5 destinations from BOS in January 2025. DCA (Ronald Reagan Washington Airport) has almost 800 direct flights in January. The next highest total is for LGA (LaGuardia Airport) with 550 flights. This would suggest that DCA is a key destination for an airline operating at BOS.")
