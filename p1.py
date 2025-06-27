@@ -10,6 +10,14 @@ from streamlit_folium import st_folium
 df = pd.read_csv("BOS_Jan_25.csv")
 bos_routes = df[df['Origin'] == 'BOS'][['Origin', 'Dest', 'Dest_lat', 'Dest_long']].drop_duplicates()
 
+st.title("Test 1, Problem 1")
+
+st.write("Select one major airport from the U.S. East Coast (JFK, ATL, MIA, BOS, PHL, etc.). Map all the direct routes from the selected airport. Perform an Exploratory Data Analysis (EDA) to understand popular routes, airport connectivity, and operations performance.")
+
+st.subheader("Boston Logan Airport (BOS)")
+
+st.subheader("Direct Routes From Boston Logan Airport (BOS)")
+
 # Create base map
 m = folium.Map(location=[42.3656, -71.0096], zoom_start=4)
 
