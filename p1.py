@@ -27,3 +27,8 @@ for _, row in bos_routes.iterrows():
 
 # Creat map for direct destinations from BOS
 st_folium(m, width=725, height=500)
+
+st.write("Direct Routes from Boston Logan Airport (BOS)")
+
+st.write("An interactive map of all direct destinations from Boston Logan Airport (BOS). Direct routes are displayed in blue. Utilizing additional code, it was determined that BOS has direct connections to 63 airports. However, it should be noted that the dataset reflects flights occuring in January 2025 only. It is possible that connections in months not examined could be greater or fewer.")
+
