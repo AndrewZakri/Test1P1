@@ -163,6 +163,8 @@ st.pyplot(fig)
 
 st.write("This pie chart reflects an overwhelming percentage of total flights classified as Domestic. Reviewing the direct route map, we can determine that there are only 2 destinations outside of the United States serviced by BOS. One in Puerto Rico and the other in the British Virgin Islands. Surprisingly, the number of International flights is low for an airport located in close proximity to the Atlantic Ocean. A possible explanation is that the demand for international travel in the New England area is low, either for business or leisure. It is also possible that neighboring airports, such as those in NYC are competing with BOS for international travel.")
 
+st.subheader("Top Airlines")
+
 # Filter flights originating from BOS
 bos_df = df[df['Origin'] == 'BOS']
 
@@ -198,6 +200,8 @@ plt.tight_layout()
 st.pyplot(fig)
 
 st.write("Referencing the bar chart for top airlines operating in BOS, we can see that there are 5 airlines with relatively high flight volumes, and the remaining airlines with much smaller volumes. JetBlue has just under 3000 flights, followed by Republic at 2500, Delta at 1800, American at 1100, and United at 900. The next closest is Spirit and Southwest with under 500 flights each. It could be argued that BOS is a hub for JetBlue, or at the very least an important airport in its network.")
+
+st.subheader("Departure Delay")
 
 # Delay performance
 
